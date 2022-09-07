@@ -24,28 +24,6 @@ const museums = [
     city: "Mexico   City",
   },
 ];
-const createMuseumsTable = db.prepare(`
-CREATE TABLE  IF NOT EXISTS museums (
-    id INTEGER NOT NULL,
-    name TEXT NOT NULL,
-    city TEXT NOT NULL,
-    PRIMARY KEY(id)
-
-);
-`);
-
-createMuseumsTable.run();
-
-const deleteMuseum = db.prepare(`
-DELETE FROM museums
-`);
-deleteMuseum.run();
-const createMuseum = db.prepare(`
-INSERT INTO museums (name, city) VALUES (?,?);
-`);
-for (let museum of museums) {
-  createMuseum.run(museum.name, museum.city);
-}
 
 const works = [
   {
@@ -79,6 +57,34 @@ const works = [
   },
 ];
 
+const dropAllWorks = db.prepare(`
+DROP TABLE IF  EXISTS works`);
+dropAllWorks.run();
+
+const dropMuseum = db.prepare(`
+DROP TABLE IF EXISTS  museums
+`);
+dropMuseum.run();
+
+const createMuseumsTable = db.prepare(`
+CREATE TABLE IF NOT EXISTS museums (
+    id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    city TEXT NOT NULL,
+    PRIMARY KEY(id)
+
+);
+`);
+
+createMuseumsTable.run();
+
+const createMuseum = db.prepare(`
+INSERT INTO museums (name, city) VALUES (?,?);
+`);
+for (let museum of museums) {
+  createMuseum.run(museum.name, museum.city);
+}
+
 const createWorksTable = db.prepare(`
 CREATE TABLE IF NOT EXISTS works (
     id INTEGER ,
@@ -92,14 +98,10 @@ CREATE TABLE IF NOT EXISTS works (
 
 createWorksTable.run();
 
-const deleteAllWorks = db.prepare(`
-DELETE FROM works 
-`);
-
-deleteAllWorks.run();
 const createWork = db.prepare(`
 INSERT INTO works (name, picture, museumId) VALUES (?, ?, ?);
 `);
 
 for (let work of works) {
-createWork.run(work.name, work.picture, work.museumId)}
+  createWork.run(work.name, work.picture, work.museumId);
+}
