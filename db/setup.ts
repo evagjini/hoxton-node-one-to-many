@@ -51,14 +51,8 @@ const works = [
     picture:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Garuda_-_British_Museum_-_Joy_of_Museums.jpg/1024px-Garuda_-_British_Museum_-_Joy_of_Museums.jpg",
     museumId: 4,
-  },
-  {
-    name:"Leolela of Peace",
-    picture:"https://www.pictureframesexpress.co.uk/blog/wp-content/uploads/2020/05/7-Tips-to-Finding-Art-Inspiration-Header-1024x649.jpg",
-    museumid:3
   }
-];
-
+]
 const dropAllWorks = db.prepare(`
 DROP TABLE IF  EXISTS works`);
 dropAllWorks.run();
@@ -92,7 +86,7 @@ CREATE TABLE IF NOT EXISTS works (
     id INTEGER  NOT NULL,
     name TEXT NOT NULL ,
     picture TEXT ,
-    museumId INTEGER ,
+    museumId INTEGER NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (museumId) REFERENCES museums(id)
 );
