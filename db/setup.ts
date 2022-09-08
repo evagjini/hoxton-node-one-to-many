@@ -75,10 +75,10 @@ CREATE TABLE IF NOT EXISTS museums (
 createMuseumsTable.run();
 
 const createMuseum = db.prepare(`
-INSERT INTO museums (name, city) VALUES (?,?);
+INSERT INTO museums (name, city) VALUES (@name,@city);
 `);
 for (let museum of museums) {
-  createMuseum.run(museum.name, museum.city);
+  createMuseum.run(museum);
 }
 
 const createWorksTable = db.prepare(`
@@ -95,9 +95,9 @@ CREATE TABLE IF NOT EXISTS works (
 createWorksTable.run()
 
 const createWork = db.prepare(`
-INSERT INTO works (name, picture, museumId) VALUES (?, ?, ?);
+INSERT INTO works (name, picture, museumId) VALUES (@name, @picture, @museumId);
 `);
 
 for (let work of works) {
-  createWork.run(work.name, work.picture, work.museumId);
+  createWork.run(work);
 }
